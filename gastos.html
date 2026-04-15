@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meus Gastos</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    display: flex;
+}
+
+/* MENU */
+.sidebar {
+    width: 200px;
+    background: #020617;
+    padding: 20px;
+    height: 100vh;
+}
+
+/* CONTEÚDO */
+.main {
+    flex: 1;
+    padding: 20px;
+}
+
+/* CARDS */
+.cards {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #111827;
+    padding: 20px;
+    border-radius: 10px;
+    flex: 1;
+
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px,
+                rgb(51, 51, 51) 0px 0px 0px 3px;
+}
+
+/* INPUTS */
+input, select {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+}
+
+button {
+    padding: 10px;
+    background: #22c55e;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Finance</h2>
+    <p>Visão Geral</p>
+</div>
+
+<div class="main">
+
+    <h1>Visão Geral</h1>
+
+    <!-- CARDS -->
+    <div class="cards">
+        <div class="card">
+            <h3>Total</h3>
+            <p id="total">R$ 0</p>
+        </div>
+
+        <div class="card">
+            <h3>Ganhos</h3>
+            <p id="ganhos">R$ 0</p>
+        </div>
+
+        <div class="card">
+            <h3>Despesas</h3>
+            <p id="despesas">R$ 0</p>
+        </div>
+    </div>
+
+    <!-- FORM -->
+    <h2>Adicionar</h2>
+
+    <input id="descricao" placeholder="Descrição">
+    <input id="valor" type="number" placeholder="Valor">
+
+    <select id="tipo">
+        <option value="ganho">Ganho (+)</option>
+        <option value="despesa">Despesa (-)</option>
+    </select>
+
+    <!-- 👇 BOTÃO -->
+    <button onclick="adicionar()">Adicionar</button>
+
+    <ul id="lista"></ul>
+
+</div>
+
+<script>
+let total = 0;
+let ganhos = 0;
+let despesas = 0;
+
+function adicionar() {
+    const desc = document.getElementById("descricao").value;
+    const val = Number(document.getElementById("valor").value);
+    const tipo = document.getElementById("tipo").value;
+
+    if (desc === "" || val === 0) {
+        alert("Preencha tudo!");
+        return;
+    }
+
+    const lista = document.getElementById("lista");
+    const li = document.createElement("li");
+
+    if (tipo === "ganho") {
+        ganhos += val;
+        total += val;
+        li.textContent = "+ " + desc + " - R$ " + val;
+        li.style.color = "lightgreen";
+    } else {
+        despesas += val;
+        total -= val;
+        li.textContent = "- " + desc + " - R$ " + val;
+        li.style.color = "red";
+    }
+
+    lista.appendChild(li);
+
+    document.getElementById("total").textContent = "R$ " + total.toFixed(2);
+    document.getElementById("ganhos").textContent = "R$ " + ganhos.toFixed(2);
+    document.getElementById("despesas").textContent = "R$ " + despesas.toFixed(2);
+
+    document.getElementById("descricao").value = "";
+    document.getElementById("valor").value = "";
+}
+</script>
+
+</body>
+</html>
